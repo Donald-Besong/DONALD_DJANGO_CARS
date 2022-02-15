@@ -1,0 +1,25 @@
+{% extends 'playground_base.html' %}
+{% block title %} Home html {% endblock %}  
+          
+{% block content %}
+ testing happily from html file...
+ {% with x=2 %}
+   this is {{x}}
+   {% if x == 2 %} 
+     Greater
+     I am greeting:
+     <p>{{name}}</p>
+   {% endif %}
+ {% endwith %}
+ 
+ {% if my_age == 105 %} 
+   I am greeting:{{my_name}}
+ {% endif %} 
+{% endblock %}
+
+{% block paragraph %} 
+  paragraph
+  {{block.super}}
+{% endblock %}
+  
+

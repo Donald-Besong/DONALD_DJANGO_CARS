@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <meta char-set="utf-8">
+        <title>{% block title %} Playground Base html {% endblock %}</title>
+        {% comment %} This is a comment {% endcomment %}
+    </head>
+    <body>
+        <main>
+            <p>This is in all pages.</p>
+            
+            {% block content %}
+            
+               {% block paragraph %}
+                 <p><h1>Base Playgound paragraph</h1></p>
+                {% endblock %} 
+                
+            {% endblock %}
+
+        </main>
+    </body>
+</html>

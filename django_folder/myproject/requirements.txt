@@ -1,0 +1,6 @@
+pandas
+numpi
+Django
+mysqlclient
+django-mysql
+Pillow

@@ -1,0 +1,83 @@
+cd Documents/tutorials/udemy/course_jenkins_ansible
+cd Documents/DOCKER_PROJECTS/DJANGO_UDEMY
+
+docker system prune 
+docker rmi $(docker images -q) -f
+docker rm $(docker ps -q) -f
+
+docker logs -f jenkins
+docker exec -ti remote-host bash
+
+you can also log in as root (docker exec -u root -ti jenkins bash)
+
+*****begin ssh***
+to generate keys :
+1)in local machine ie jenkins (ssh-keygen -t rsa) which is automatially saved in root/.ssh
+2)copy public key to remote machine into /home/remote_user/.ssh/authorised_keys (ssh-copy-id -i root/.ssh/id_rsa.pub remote_user@remote-host2)
+3)in remote_host (the remote machine) do chmod 700 /home/remote_user/.ssh
+4)in local machine, add private key to authentication agent so we can log
+into the remote machine without a password (eval `ssh-agent`; ssh-add)
+2a) ssh-agent /bin/sh; ssh-add root/.ssh/id_rsa
+
+in local machine
+https://stackoverflow.com/questions/22499443/why-the-sshd-service-is-unrecognized
+https://www.digitalocean.com/community/questions/ssh-won-t-login-permission-denied-publickey-password
+
+*****begin ssh***
+
+mysql -u root -h mysql_host_container -p
+
+mysqldump -u root -h mysql_host_container -p classicmodels > tmp/classicmodels_bcp.sql
+mysqldump -u root -h mysql_host_container -p classicmodels > ../../tmp/classicmodels_bcp.sql
+
+export AWS_ACCESS_KEY_ID=AKIAW2NK7X3X7TOKT2G3
+
+export AWS_SECRET_ACCESS_KEY=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
+
+aws s3 cp tmp/classicmodels_bcp.sql s3://docker-test-db/classicmodels_bcp.sql
+aws s3 cp tmp/classicmodels_bcp.sql s3://docker-test-db/
+using variables for Jenkins
+create script.sh in the container:
+db_host=$1
+db_pswd=$2
+db_name=$3
+mysqldump -u root -h $db_host -p$db_pswd $db_name > tmp/classicmodels_bcp.sql
+
+oops! if you do not have perision to copy this file into
+the mounted volume from outside 
+the volume, do sudo cp filename volumename/filename
+then, in the docker image's cmd chmod +x filename
+you can also do sudo chmod -R a+rwx (for any file/folder located in tmp)
+then run: filename mysql_host_container 1234 classicmodels
+
+/usr/src/script.sh mysql_host_container 1234 classicmodels
+
+
+Running remote_host from jenkins:
+cp ../../usr/src/script.sh tmp/ && tmp/script.sh tmp/$DB_HOST_PARAM $MYSQL_PASWORD_VAR $DB_NAME_PARAM $BUCKET_NAME_PARAM $AWS_KEY_ID_VAR $AWS_SECRET_VAR
+
+how to ssh with ansible
+1) Create inventory file (hosts)
+2) ansible test2 -m ping -i /var/jenkins_home/ansible/hosts
+   ansible -i var/jenkins_home/ansible/hosts -m ping test2
+3) Create a playbook (play.yml)
+4) ansible-playbook -i /var/jenkins_home/ansible/hosts /var/jenkins_home/ansible/play.yml
+
+--------
+EnvVariables:
+export MYSQL_DATABASE=accountmodels && export MYSQL_USER=root && export MYSQL_PASSWORD=1234 &&  export MYSQL_HOST=mysql_host_container
+export MYSQL_DATABASE=classicmodels && export MYSQL_USER=root && export MYSQL_PASSWORD=1234 &&  export MYSQL_HOST=mysql_host_container
+export MYSQL_DATABASE=testdb && export MYSQL_USER=root && export MYSQL_PASSWORD=1234 &&  export MYSQL_HOST=mysql_host_container
+
+--------
+*** using pip from within django_container *** 
+. /usr/myproject/activate_env3.sh
+cd COSTUM_USER_BASE
+
+*** running the django project ***
+python3 manage.py runserver 0.0.0.0:8000
+
+#!/bin/bash
+
+
+

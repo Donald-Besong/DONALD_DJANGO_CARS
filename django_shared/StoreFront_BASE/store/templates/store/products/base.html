@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <meta char-set="utf-8">
+        <title>{% block title %} Store Base html {% endblock %}</title>
+        {% comment %} This is a comment {% endcomment %}
+    </head>
+    <body>
+        <main>
+          <div id="subheader">
+              <div class="cart">
+                  {% with total_items=cart|length %}
+                    {% if cart|length > 0 %}
+                      Your cart:
+                      <p>
+                        <a href="{% url "cart:cart_detail" %}">
+                         </a>
+                      </p>
+              </div>
+          </div>
+
+        </main>
+    </body>
+</html>
