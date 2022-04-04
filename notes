@@ -8,6 +8,8 @@ docker rm $(docker ps -q) -f
 docker logs -f jenkins
 docker exec -ti remote-host bash
 
+docker exec -ti django_container bash
+source env3/bin/activate
 you can also log in as root (docker exec -u root -ti jenkins bash)
 
 *****begin ssh***
@@ -78,6 +80,50 @@ cd COSTUM_USER_BASE
 python3 manage.py runserver 0.0.0.0:8000
 
 #!/bin/bash
+
+**************** Explanation of static files ****************
+*** base.html
+Has the general content. 
+This links to static content,  css libraries e.g css/bootstrap.min.css,
+jquery and bootstrap scripts, which are all within the head tag. 
+It also includes topbar and navbar above the 
+{block content} {end block}
+Then, it includes footer after {end block}
+
+*** home.html just uses base.html as it is by {{ block.super }}
+*** other html pages (about, contact, and services) modify the    
+blocks.
+
+*** base.html
+class "carousel slide" is from bootstrap.min.css
+
+classes carousel and slide are in bootstrap.min.js (the word "class" is not used)
+However, when the class= "carousel slide" are withing class="container", the js code 
+controls this div.
+
+class .container is defined in bootstrap.min.css
+
+data-ride="carousel" marks the carousel to start animation at page load
+class="carousel-item" marks the item. Say there are three images. class="carousel-item"
+will be in three div's, each with its own image.
+class "carousel-content" is an inner div which places some text over the image.
+
+One of the carousel divs should have the active class, else the whole carousel wouldn't show.
+Other classes for div are in CARZONE_PROJECT/static/css/style.css (e.g. item-bg, banner, etc)
+
+*** topbar.html
+Classes for its div are defined in /static/fonts/font-awesome/css/font-awesome.min.css
+This has character representations for icons, e.g. phone icon is "\f098",
+ the envelope icon is "\f0e0" 
+
+*** navbar.html
+Classes for its div are defined in CARZONE_PROJECT/static/css/style.css
+(e.g nav-link, dropdown-toggle). Those class names are 
+dynamically controled in static/js/app.js
+
+*********** useful unix commands
+grep -ri "slide" (find the string "slide" recursively)
+
 
 
 
