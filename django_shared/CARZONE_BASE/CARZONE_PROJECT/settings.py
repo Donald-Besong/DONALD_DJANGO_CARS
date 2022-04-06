@@ -128,4 +128,7 @@ STATICFILES_DIRS = [Path(LEVEL_DIR, 'static'),] #this is where collectstatic loo
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = Path(BASE_DIR, 'media')
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
