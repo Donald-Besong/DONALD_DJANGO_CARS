@@ -1,12 +1,16 @@
 from django.shortcuts import render
-from.models import Team
+from .models import Team
+from cars_app.models import Car
+
 #from django.urls import reverse_lazy
 #from django.views.generic.edit import CreateView
 
 def home(request):
     teams = Team.objects.all()
+    featured_cars = Car.objects.order_by('-created_date').filter(is_featured=True)
     data = {
-      'teams': teams, 
+      'teams': teams,
+      'featured_cars': featured_cars,
      }
     template_name = 'pages_templates/home.html'
     return render(request, template_name, data)

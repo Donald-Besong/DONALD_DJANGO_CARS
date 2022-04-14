@@ -124,6 +124,9 @@ dynamically controled in static/js/app.js
 *********** useful unix commands
 grep -ri "slide" (find the string "slide" recursively)
 
-
-
+***port allready in use
+apt install lsof; lsof -ipn | grep LISTEN
+you will get "python3 1913 root    4u  IPv4 7627545      0t0  TCP *:8000 (LISTEN)
+" at the command-line
+then run kill 1913
 
